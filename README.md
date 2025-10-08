@@ -4,6 +4,12 @@ Assorted C++ utility libraries, primarily aimed at embedded/ESP-IDF targets, but
 
 ## Libraries
 
+### bmpimage
+
+Simple 1bpp and 8bpp bitmap handling with dithering support.
+
+- Include: `#include <BMPImage/BMPImage.hpp>`
+
 ### defer
 
 Single-header scope guard macro for RAII-style defers.
