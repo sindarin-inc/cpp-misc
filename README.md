@@ -37,6 +37,12 @@ Compatibility header for logging that uses ESP_LOG* if available otherwise falls
   }
   ```
 
+### imagetest
+
+Tools for decoding and comparing images during testing.
+
+- Include: `#include <ImageTest/ImageTest.hpp>`
+
 ### spiram-cpp
 
 C++ helpers for ESP32 PSRAM (SPIRAM) allocation with STL-like containers and `std::string` compatible types. Falls back to normal STL on non-IDF builds.
