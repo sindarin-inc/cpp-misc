@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-cmake:
+    name: Build with CMake (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake
+
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install cmake
+
+      - name: Build CMake examples
+        run: |
+          set -euxo pipefail
+          make -C defer/examples/cmake build
+          make -C spiram-cpp/examples/cmake build
+          make -C stringutil/examples/cmake build
+
+  build-idf:
+    name: "Build ESP-IDF examples"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Tags from here: https://hub.docker.com/r/espressif/idf/tags
+        idf_version: [ v5.3.2 ]
+        project:
+          - defer/examples/esp-idf
+          - spiram-cpp/examples/esp-idf
+          - stringutil/examples/esp-idf
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+
+      - name: esp-idf build (${{ matrix.project }})
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: ${{ matrix.idf_version }}
+          target: esp32
+          path: ./${{ matrix.project }}
+          command: |
+            set -euxo pipefail
+            idf.py build
