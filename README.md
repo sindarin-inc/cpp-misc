@@ -53,6 +53,12 @@ Small collection of string helpers.
 
 - Include: `#include <StringUtil/StringUtil.hpp>`
 
+### unzipper
+
+Streaming decompressor for zip files. Useful for reading/decompressing parts of zip files without unzipping the whole thing.
+
+- Include: `#include <Unzipper/Unzipper.hpp>`
+
 ## Building
 
 - Desktop examples: inside each `examples/cmake` directory, run `make run`

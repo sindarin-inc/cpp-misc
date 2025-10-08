@@ -1,0 +1,9 @@
+## IDF Component Manager Manifest File
+version: 0.1.0
+dependencies:
+  spiram-cpp:
+    path: ../spiram-cpp
+  miniz:
+    path: ../vendor/miniz
+  idflog:
+    path: ../idflog
