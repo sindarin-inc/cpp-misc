@@ -1,27 +1,35 @@
-.PHONY: defer-examples-cmake defer-examples-esp-idf spiram-cpp-examples-cmake spiram-cpp-examples-esp-idf stringutil-examples-cmake stringutil-examples-esp-idf clean all format
+.PHONY: build-cmake-defer build-cmake-spiram-cpp build-cmake-stringutil build-cmake build-esp-idf-defer build-esp-idf-spiram-cpp build-esp-idf-stringutil build-esp-idf test-bmpimage test clean format
+.DEFAULT_GOAL := all
 
-defer-examples-cmake:
+build-cmake-defer:
 	@$(MAKE) -C defer/examples/cmake run
 
-defer-examples-esp-idf:
-	@$(MAKE) -C defer/examples/esp-idf build
-
-spiram-cpp-examples-cmake:
+build-cmake-spiram-cpp:
 	@$(MAKE) -C spiram-cpp/examples/cmake run
 
-spiram-cpp-examples-esp-idf:
-	@$(MAKE) -C spiram-cpp/examples/esp-idf build
-
-stringutil-examples-cmake:
+build-cmake-stringutil:
 	@$(MAKE) -C stringutil/examples/cmake run
 
-stringutil-examples-esp-idf:
+build-cmake: build-cmake-defer build-cmake-spiram-cpp build-cmake-stringutil
+
+build-esp-idf-defer:
+	@$(MAKE) -C defer/examples/esp-idf build
+
+build-esp-idf-spiram-cpp:
+	@$(MAKE) -C spiram-cpp/examples/esp-idf build
+
+build-esp-idf-stringutil:
 	@$(MAKE) -C stringutil/examples/esp-idf build
+
+build-esp-idf: build-esp-idf-defer build-esp-idf-spiram-cpp build-esp-idf-stringutil
 
 test-bmpimage:
 	@$(MAKE) -C bmpimage/tests test
 
-cmake-examples: defer-examples-cmake spiram-cpp-examples-cmake stringutil-examples-cmake
+test: test-bmpimage
+
+all: build-cmake build-esp-idf test
+	@echo "All examples built successfully"
 
 clean:
 	@$(MAKE) -C defer/examples/cmake clean
@@ -30,9 +38,7 @@ clean:
 	@$(MAKE) -C spiram-cpp/examples/esp-idf clean
 	@$(MAKE) -C stringutil/examples/cmake clean
 	@$(MAKE) -C stringutil/examples/esp-idf clean
-
-all: defer-examples-cmake defer-examples-esp-idf spiram-cpp-examples-cmake spiram-cpp-examples-esp-idf stringutil-examples-cmake stringutil-examples-esp-idf test-bmpimage
-	@echo "All examples built successfully"
+	@$(MAKE) -C bmpimage/tests clean
 
 # Format all tracked C/C++ sources via git, excluding freetype and Catch2 amalgamation
 CLANG_FORMAT ?= clang-format
