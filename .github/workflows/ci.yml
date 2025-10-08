@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build-cmake:
+  build-cmake-examples:
     name: Build with CMake (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -37,7 +37,7 @@ jobs:
           make -C spiram-cpp/examples/cmake build
           make -C stringutil/examples/cmake build
 
-  build-idf:
+  build-idf-examples:
     name: "Build ESP-IDF examples"
     runs-on: ubuntu-latest
     strategy:
@@ -65,3 +65,27 @@ jobs:
           command: |
             set -euxo pipefail
             idf.py build
+
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - bmpimage/tests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake libpng-dev
+
+      - name: Run tests
+        run: |
+          set -euxo pipefail
+          make -C ${{ matrix.project }} test
