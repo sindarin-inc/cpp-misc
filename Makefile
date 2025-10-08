@@ -1,4 +1,4 @@
-.PHONY: defer-examples-cmake defer-examples-esp-idf spiram-examples-cmake spiram-examples-esp-idf stringutil-examples-cmake stringutil-examples-esp-idf clean all format
+.PHONY: defer-examples-cmake defer-examples-esp-idf spiram-cpp-examples-cmake spiram-cpp-examples-esp-idf stringutil-examples-cmake stringutil-examples-esp-idf clean all format
 
 defer-examples-cmake:
 	@$(MAKE) -C defer/examples/cmake run
@@ -18,6 +18,7 @@ stringutil-examples-cmake:
 stringutil-examples-esp-idf:
 	@$(MAKE) -C stringutil/examples/esp-idf build
 
+cmake-examples: defer-examples-cmake spiram-cpp-examples-cmake stringutil-examples-cmake
 
 clean:
 	@$(MAKE) -C defer/examples/cmake clean

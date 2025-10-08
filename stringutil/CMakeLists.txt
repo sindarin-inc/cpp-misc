@@ -23,13 +23,12 @@ else()
     add_library(stringutil STATIC
         ${SOURCES}
     )
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../spiram-cpp spiram-cpp)
     target_include_directories(stringutil PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
     target_compile_options(stringutil PRIVATE
         -Wno-unknown-pragmas
     )
-    target_link_libraries(stringutil PUBLIC spiram-cpp)
+    target_link_libraries(stringutil PRIVATE spiram-cpp)
 
 endif()
