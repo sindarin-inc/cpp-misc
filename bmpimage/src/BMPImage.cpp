@@ -1,9 +1,12 @@
 #include "BMPImage/BMPImage.hpp"
 
+#include <Log/Log.hpp>
 #include <Spiram/Memory.hpp>
 
 #include "Ditherer.hpp"
 #include "bmp.h"
+
+constexpr const char *TAG = "BMPImage";
 
 std::shared_ptr<uint8_t[]> bmpConversionLUT = nullptr;
 
@@ -33,7 +36,7 @@ void BMPImage::createLUT() {
 auto BMPImage::readFromBytes(uint8_t *bmpbytes, int size) -> bool {
     bmp_image *img = BmpReadFromMemory(bmpbytes, static_cast<size_t>(size));
     if (!img) {
-        // error reading bmp image
+        LOGE(TAG, "Failed to read BMP image from memory");
         return false;
     }
 
@@ -45,7 +48,7 @@ auto BMPImage::readFromBytes(uint8_t *bmpbytes, int size) -> bool {
 
     int bitcount = img->dib.bmiHeader.biBitCount;
     if (bitcount != 8 && bitcount != 1) {
-        // bitcount not supported (only 1 or 8 bit)
+        LOGE(TAG, "%d bit bmp not supported", bitcount);
         return false;
     }
 

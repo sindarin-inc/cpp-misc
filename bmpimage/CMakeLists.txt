@@ -25,6 +25,6 @@ else()
     target_include_directories(bmpimage PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-    target_link_libraries(bmpimage PRIVATE spiram-cpp)
+    target_link_libraries(bmpimage PRIVATE spiram-cpp idflog)
 
 endif()

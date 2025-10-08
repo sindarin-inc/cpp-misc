@@ -24,6 +24,19 @@ Single-header scope guard macro for RAII-style defers.
   } // fclose runs automatically
   ```
 
+### idflog
+
+Compatibility header for logging that uses ESP_LOG* if available otherwise falls back to `printf`.
+
+- Include: `#include <Log/Log.hpp>`
+- Usage:
+  ```cpp
+  {
+      constexpr const char *TAG = "MyModule";
+      LOGD(TAG, "Stuff happened %d times", count);
+  }
+  ```
+
 ### spiram-cpp
 
 C++ helpers for ESP32 PSRAM (SPIRAM) allocation with STL-like containers and `std::string` compatible types. Falls back to normal STL on non-IDF builds.
