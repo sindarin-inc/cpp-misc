@@ -12,7 +12,8 @@ if(DEFINED ESP_PLATFORM AND ESP_PLATFORM)
     idf_component_register(
         SRCS ${SOURCES}
         INCLUDE_DIRS "include"
-        REQUIRES spiram-cpp idflog miniz
+        REQUIRES spiram-cpp miniz
+        PRIV_REQUIRES idflog
     )
 
     target_compile_options(${COMPONENT_TARGET} PUBLIC ${compile_options})
@@ -25,6 +26,7 @@ else()
     target_include_directories(unzipper PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-    target_link_libraries(unzipper PRIVATE spiram-cpp idflog miniz)
+    target_link_libraries(unzipper PUBLIC spiram-cpp miniz)
+    target_link_libraries(unzipper PRIVATE idflog)
 
 endif()

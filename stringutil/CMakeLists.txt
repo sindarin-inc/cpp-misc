@@ -26,9 +26,9 @@ else()
     target_include_directories(stringutil PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-    target_compile_options(stringutil PRIVATE
+    target_compile_options(stringutil PUBLIC
         -Wno-unknown-pragmas
     )
-    target_link_libraries(stringutil PRIVATE spiram-cpp)
+    target_link_libraries(stringutil PUBLIC spiram-cpp)
 
 endif()

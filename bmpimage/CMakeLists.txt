@@ -12,7 +12,7 @@ if(DEFINED ESP_PLATFORM AND ESP_PLATFORM)
     idf_component_register(
         SRCS ${SOURCES}
         INCLUDE_DIRS "include"
-        REQUIRES spiram-cpp
+        PRIV_REQUIRES spiram-cpp idflog
     )
 
     target_compile_options(${COMPONENT_TARGET} PUBLIC ${compile_options})
